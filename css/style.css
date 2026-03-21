@@ -1,13 +1,12 @@
 /* --- SAFARI & CHROME TAM UYUMLULUK AYARLARI --- */
 html, body {
-    /* Safari'de adres çubuğu değiştikçe boyutu koruyan dinamik birim */
     height: 100dvh; 
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Dışarı taşmayı ve kaydırmayı engeller */
-    position: fixed; /* Safari'de sayfanın "zıplamasını" önler */
-    -webkit-text-size-adjust: 100%; /* iOS'ta yan çevirince fontun büyümesini engeller */
+    overflow: hidden; 
+    position: fixed; 
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -38,15 +37,17 @@ button {
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
+    border: none; /* Kenarlık sorunlarını kökten çözer */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .startBtn {
-    padding: 2vh 10vw; font-size: 3vh; background: gold; border: none;
+    padding: 2vh 10vw; font-size: 3vh; background: gold; 
     border-radius: 40px; color: black; font-weight: bold; 
     transition: 0.3s;
 }
 
-/* --- ANA OYUN EKRANI (PC/TAHTA DÜZENİ) --- */
+/* --- ANA OYUN EKRANI --- */
 #gameScreen {
     display: none; 
     flex-direction: row; 
@@ -99,7 +100,7 @@ button {
 .correct { background: #27ae60 !important; border-color: white !important; }
 .wrong { background: #c0392b !important; border-color: white !important; }
 
-/* --- JOKERLER VE ÇARPI EFEKTİ --- */
+/* --- JOKERLER --- */
 .controls-container { margin-top: 2vh; display: flex; align-items: center; gap: 2vw; }
 .lifelines { display: flex; gap: 1vw; }
 
@@ -129,6 +130,18 @@ button {
     z-index: 10;
 }
 
+/* --- ÇEKİL BUTONU (DÜZELTİLDİ) --- */
+.quitBtn {
+    padding: 1.5vh 3vh !important;
+    background-color: #c0392b !important;
+    color: white !important;
+    border: 1px solid white !important;
+    border-radius: 25px !important;
+    font-size: 1.8vh !important;
+    font-weight: bold !important;
+    display: block !important; /* Görünürlüğü garantiler */
+}
+
 /* --- PARA AĞACI --- */
 #moneyPyramid {
     background: rgba(0, 0, 20, 0.95); 
@@ -156,7 +169,7 @@ button {
     border-radius: 8px; 
 }
 
-/* --- MOBİL (SAFARI/IPHONE/EBA) SIĞDIRMA AYARI --- */
+/* --- MOBİL AYARLARI --- */
 @media (max-width: 950px) {
     #gameScreen { 
         flex-direction: column; 
@@ -182,10 +195,7 @@ button {
         overflow-x: auto; 
         gap: 5px; 
         padding: 5px; 
-        -webkit-overflow-scrolling: touch; /* Safari kaydırma akıcılığı */
     }
-
-    #moneyList::-webkit-scrollbar { display: none; }
 
     #moneyList li { 
         border: none; 
@@ -197,16 +207,27 @@ button {
     #questionBox { padding: 1.5vh; border-radius: 20px; width: 95%; margin-bottom: 1vh; }
 
     #answers { 
-        grid-template-columns: 1fr; /* Şıkları tek sütun yapar (Taşmayı önler) */
+        grid-template-columns: 1fr; 
         gap: 5px; 
         width: 100%; 
     }
 
     #answers button { padding: 1.5vh; font-size: 1.8vh; border-radius: 10px; }
     
-    .controls-container { margin-top: 1vh; }
-    .lifelines button { width: 6vh; height: 6vh; font-size: 2.5vh; }
-    .quitBtn { display: none; } /* Mobilde yer kazanmak için çekil butonunu gizler */
+    .controls-container { 
+        margin-top: 1vh; 
+        flex-direction: row; 
+        justify-content: center; 
+        gap: 5px;
+    }
+    .lifelines button { width: 5.5vh; height: 5.5vh; font-size: 2.2vh; }
+    
+    /* Mobilde Çekil Butonu Düzeltmesi */
+    .quitBtn { 
+        display: inline-block !important; 
+        font-size: 1.5vh !important; 
+        padding: 1vh 2vh !important;
+    }
 }
 
 /* MODALLAR */
