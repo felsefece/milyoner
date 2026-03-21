@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyoner Felsefe</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="initApp()">
+
+    <audio id="bgMusic" loop>
+        <source src="assets/audio/background_music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="startScreen">
+        <h1 class="logo">KİM MİLYONER OLMAK İSTER</h1>
+        <div class="login-area">
+            <button class="startBtn" onclick="startGame()">OYUNA BAŞLA</button>
+        </div>
+    </div>
+
+    <div id="gameScreen">
+        <div id="quiz-area">
+            <div id="topBar">
+                <span id="playerInfo">Kazanılan Ödül Miktarı</span>
+                <span id="score">0 ₺</span>
+            </div>
+
+            <div id="questionBox">
+                <h2 id="question"></h2>
+            </div>
+
+            <div id="answers"></div>
+
+            <div class="controls-container">
+                <div class="lifelines">
+                    <button id="btnFifty" onclick="useFifty()">%50</button>
+                    <button id="btnDouble" onclick="useDouble()">x2</button>
+                    <button id="btnAudience" onclick="useAudience()">S</button>
+                    <button id="btnPhone" onclick="usePhone()">T</button>
+                </div>
+                <button class="quitBtn" onclick="quitGame()">ÇEKİL</button>
+            </div>
+        </div>
+
+        <div id="moneyPyramid">
+            <ul id="moneyList">
+                <li data-level="15" class="safe">15. ₺1.000.000</li>
+                <li data-level="14">14. ₺500.000</li>
+                <li data-level="13">13. ₺250.000</li>
+                <li data-level="12">12. ₺125.000</li>
+                <li data-level="11">11. ₺60.000</li>
+                <li data-level="10" class="safe">10. ₺30.000</li>
+                <li data-level="9">9. ₺15.000</li>
+                <li data-level="8">8. ₺7.500</li>
+                <li data-level="7">7. ₺5.000</li>
+                <li data-level="6">6. ₺3.000</li>
+                <li data-level="5" class="safe">5. ₺2.000</li>
+                <li data-level="4">4. ₺1.000</li>
+                <li data-level="3">3. ₺500</li>
+                <li data-level="2">2. ₺300</li>
+                <li data-level="1">1. ₺100</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="customAlert" class="modal">
+        <div class="modalContent alertContent">
+            <p id="alertMessage"></p>
+            <button id="alertBtn" class="startBtn">TAMAM</button>
+        </div>
+    </div>
+
+    <div id="audienceModal" class="modal">
+        <div class="modalContent">
+            <h3>Seyirci Dağılımı</h3>
+            <div id="chart"></div>
+            <button onclick="closeAudience()">Kapat</button>
+        </div>
+    </div>
+
+    <script src="js/questions.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
