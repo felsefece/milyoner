@@ -35,11 +35,9 @@ function showAlert(message, callback = null) {
 }
 
 function startGame() {
-    // İsim kontrolü kaldırıldı, direkt oyun başlıyor
     const bg = document.getElementById("bgMusic");
     bg.volume = 0.2;
     bg.play().catch(() => {});
-
     generateQuestions();
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("gameScreen").style.display = "flex"; 
@@ -58,13 +56,21 @@ function generateQuestions() {
 function showQuestion() {
     const q = gameQuestions[currentIndex];
     updatePyramidUI(currentIndex);
-    document.getElementById("question").innerText = q.question;
+    
     const answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
+    
+    document.getElementById("question").innerText = q.question;
+
     q.answers.forEach(a => {
         const btn = document.createElement("button");
         btn.textContent = a.text;
-        btn.onclick = () => { playSound('click'); selectAnswer(a.correct, btn); };
+        btn.classList.remove("correct", "wrong");
+
+        btn.onclick = () => { 
+            playSound('click'); 
+            selectAnswer(a.correct, btn); 
+        };
         answersDiv.appendChild(btn);
     });
 }
@@ -79,8 +85,11 @@ function selectAnswer(correct, btn) {
         doubleDipActive = false;
         setTimeout(() => {
             currentIndex++;
-            if (currentIndex >= gameQuestions.length) showAlert("TEBRİKLER! MİLYONERSİNİZ!", () => location.reload());
-            else showQuestion();
+            if (currentIndex >= gameQuestions.length) {
+                showAlert("TEBRİKLER! MİLYONERSİNİZ!", () => location.reload());
+            } else {
+                showQuestion();
+            }
         }, 1500);
     } else {
         if (doubleDipActive) {
@@ -97,7 +106,9 @@ function selectAnswer(correct, btn) {
             disableAllButtons();
             highlightCorrectAnswer();
             let finalPrize = calculateSafeMoney();
-            setTimeout(() => { showAlert(`Bitti! Ödülünüz: ${finalPrize.toLocaleString()} ₺`, () => location.reload()); }, 1200);
+            setTimeout(() => { 
+                showAlert(`Bitti! Ödülünüz: ${finalPrize.toLocaleString()} ₺`, () => location.reload()); 
+            }, 1200);
         }
     }
 }
@@ -114,12 +125,16 @@ function calculateSafeMoney() {
     return 0;
 }
 
-function disableAllButtons() { document.querySelectorAll("#answers button").forEach(b => b.style.pointerEvents = "none"); }
+function disableAllButtons() { 
+    document.querySelectorAll("#answers button").forEach(b => b.style.pointerEvents = "none"); 
+}
 
 function highlightCorrectAnswer() {
     const q = gameQuestions[currentIndex];
     document.querySelectorAll("#answers button").forEach(btn => {
-        if (q.answers.find(a => a.text === btn.textContent && a.correct)) btn.classList.add("correct");
+        if (q.answers.find(a => a.text === btn.textContent && a.correct)) {
+            btn.classList.add("correct");
+        }
     });
 }
 
@@ -128,7 +143,10 @@ function updateScore() { document.getElementById("score").innerText = score.toLo
 function updatePyramidUI(index) {
     document.querySelectorAll('#moneyList li').forEach(li => li.classList.remove('active-level'));
     const currentLi = document.querySelector(`#moneyList li[data-level="${index + 1}"]`);
-    if (currentLi) currentLi.classList.add('active-level');
+    if (currentLi) {
+        currentLi.classList.add('active-level');
+        currentLi.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
 }
 
 function useFifty() {
@@ -136,7 +154,9 @@ function useFifty() {
     playSound('lifeline');
     const q = gameQuestions[currentIndex];
     const wrongs = q.answers.filter(a => !a.correct).sort(() => 0.5 - Math.random()).slice(0, 2);
-    document.querySelectorAll("#answers button").forEach(btn => { if (wrongs.find(w => w.text === btn.textContent)) btn.style.visibility = "hidden"; });
+    document.querySelectorAll("#answers button").forEach(btn => { 
+        if (wrongs.find(w => w.text === btn.textContent)) btn.style.visibility = "hidden"; 
+    });
     lifelines.fifty = false; document.getElementById("btnFifty").disabled = true;
 }
 
