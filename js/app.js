@@ -22,6 +22,22 @@ function playSound(name) {
     }
 }
 
+// Yeni soruda joker seslerini durdurmak için yardımcı fonksiyon
+function stopLifelineSounds() {
+    // sounds objesi içindeki 'lifeline' sesini durdur
+    sounds.lifeline.pause();
+    sounds.lifeline.currentTime = 0;
+    
+    // Eğer HTML içinde başka audio etiketleri varsa onları da temizle (bgMusic hariç)
+    const allAudios = document.querySelectorAll('audio');
+    allAudios.forEach(audio => {
+        if (audio.id !== 'bgMusic') {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    });
+}
+
 function initApp() {}
 
 function showAlert(message, callback = null) {
@@ -54,6 +70,9 @@ function generateQuestions() {
 }
 
 function showQuestion() {
+    // --- YENİ SORUDA SESİ DURDURMA ---
+    stopLifelineSounds(); 
+    
     const q = gameQuestions[currentIndex];
     updatePyramidUI(currentIndex);
     

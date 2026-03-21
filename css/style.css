@@ -94,3 +94,33 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
     #answers button { padding: 15px; font-size: 16px; }
     .logo { font-size: 30px; }
 }
+
+/* Mevcut CSS kodlarının en altına ekle */
+
+.lifelines button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Joker kullanıldığında (disabled) üzerine otomatik çarpı koyar */
+.lifelines button:disabled .cross::after {
+    content: "❌";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Kullanılan jokerin rengini soldurur */
+.lifelines button:disabled {
+    opacity: 0.4;
+    filter: grayscale(1);
+    border-color: #444 !important;
+    cursor: not-allowed;
+}
