@@ -9,7 +9,6 @@ body {
 body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 0; }
 
 #startScreen, #gameScreen { position: relative; z-index: 1; }
-
 .logo { font-size: 50px; margin-bottom: 30px; text-shadow: 0 0 20px black, 0 0 10px gold; }
 
 .startBtn {
@@ -18,25 +17,12 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
     transition: 0.3s;
 }
 
-@media (hover: hover) {
-    .startBtn:hover { transform: scale(1.1); box-shadow: 0 0 25px gold; }
-    #answers button:hover:not(:disabled) { background: #e67e22; border-color: white; }
-}
-
 #gameScreen {
     display: none; flex-direction: row; align-items: center; justify-content: space-evenly;
     height: 90vh; width: 98%; max-width: 1500px; margin: 0 auto; gap: 20px;
 }
 
-#quiz-area {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
-#topBar {
-    display: flex; justify-content: space-between; padding: 15px 30px;
-    background: rgba(0, 0, 50, 0.9); border: 2px solid gold; border-radius: 15px;
-    width: 85%; margin-bottom: 25px; font-size: 18px; font-weight: bold;
-}
+#quiz-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
 #questionBox {
     margin-bottom: 30px; padding: 40px; width: 90%;
@@ -45,82 +31,49 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 }
 
 #question { font-size: 1.6em; line-height: 1.4; margin: 0; }
-
 #answers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 95%; }
 
 #answers button {
     padding: 22px 30px; font-size: 19px; background: #000033;
     border: 2px solid #3498db; border-radius: 50px; color: white;
     cursor: pointer; text-align: left; transition: 0.2s;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .correct { background: #27ae60 !important; border-color: white !important; }
 .wrong { background: #c0392b !important; border-color: white !important; }
 
+/* JOKERLER VE ÇARPI EFEKTİ */
 .controls-container { margin-top: 30px; display: flex; align-items: center; gap: 30px; }
 .lifelines { display: flex; gap: 15px; }
-.lifelines button { width: 60px; height: 60px; border-radius: 50%; background: #1a1a2e; color: gold; border: 2px solid gold; font-weight: bold; cursor: pointer; font-size: 18px; }
+
+.lifelines button { 
+    width: 60px; height: 60px; border-radius: 50%; background: #1a1a2e; 
+    color: gold; border: 2px solid gold; font-weight: bold; cursor: pointer; 
+    font-size: 22px; position: relative; display: flex; align-items: center; justify-content: center;
+}
+
+.lifelines button:disabled { opacity: 0.4; filter: grayscale(1); border-color: #444; }
+
+.lifelines button:disabled .cross::after {
+    content: "❌";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    z-index: 10;
+}
 
 .quitBtn { padding: 10px 25px; background: #c0392b; color: white; border: 1px solid white; border-radius: 25px; cursor: pointer; font-size: 14px; font-weight: bold; }
 
-/* PARA AĞACI - EBA Oynatıcısında Kaymaması İçin Sabitlendi */
+/* PARA AĞACI */
 #moneyPyramid {
     background: rgba(0, 0, 20, 0.95); padding: 20px; border: 2px solid gold;
     border-radius: 20px; width: 240px; flex-shrink: 0; height: fit-content;
 }
-
 #moneyList { list-style: none; padding: 0; margin: 0; }
-#moneyList li { 
-    color: #ffa500; font-weight: bold; padding: 6px 15px; font-size: 1.1em; 
-    border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; 
-}
-#moneyList li.safe { color: white; }
+#moneyList li { color: #ffa500; font-weight: bold; padding: 6px 15px; font-size: 1.1em; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; }
 #moneyList li.active-level { background: gold; color: black !important; border-radius: 8px; transform: scale(1.05); }
 
 /* MODALLAR */
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; }
 .modalContent { background: #1a1a2e; padding: 35px; margin: 10% auto; width: 90%; max-width: 450px; border-radius: 20px; border: 3px solid gold; }
-
-/* MOBİL VE KÜÇÜK PENCERE (EBA) AYARLARI */
-@media (max-width: 950px) {
-    #gameScreen { flex-direction: column; justify-content: flex-start; overflow-y: auto; height: 100vh; padding-top: 10px; }
-    #moneyPyramid { order: -1; width: 100%; display: flex; height: auto; padding: 5px; border: none; border-bottom: 2px solid gold; border-radius: 0; margin-bottom: 10px; }
-    #moneyList { display: flex; flex-direction: row-reverse; gap: 10px; width: 100%; overflow-x: auto; }
-    #moneyList li { border: none; padding: 5px 12px; font-size: 0.9em; white-space: nowrap; }
-    #questionBox { padding: 20px; border-radius: 30px; }
-    #question { font-size: 1.2em; }
-    #answers { grid-template-columns: 1fr; gap: 10px; }
-    #answers button { padding: 15px; font-size: 16px; }
-    .logo { font-size: 30px; }
-}
-
-/* Mevcut CSS kodlarının en altına ekle */
-
-.lifelines button {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-/* Joker kullanıldığında (disabled) üzerine otomatik çarpı koyar */
-.lifelines button:disabled .cross::after {
-    content: "❌";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.8rem;
-    z-index: 10;
-    pointer-events: none;
-}
-
-/* Kullanılan jokerin rengini soldurur */
-.lifelines button:disabled {
-    opacity: 0.4;
-    filter: grayscale(1);
-    border-color: #444 !important;
-    cursor: not-allowed;
-}

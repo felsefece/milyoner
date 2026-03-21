@@ -22,13 +22,8 @@ function playSound(name) {
     }
 }
 
-// Yeni soruda joker seslerini durdurmak için yardımcı fonksiyon
+// Yeni soru gelince joker seslerini susturma
 function stopLifelineSounds() {
-    // sounds objesi içindeki 'lifeline' sesini durdur
-    sounds.lifeline.pause();
-    sounds.lifeline.currentTime = 0;
-    
-    // Eğer HTML içinde başka audio etiketleri varsa onları da temizle (bgMusic hariç)
     const allAudios = document.querySelectorAll('audio');
     allAudios.forEach(audio => {
         if (audio.id !== 'bgMusic') {
@@ -70,22 +65,17 @@ function generateQuestions() {
 }
 
 function showQuestion() {
-    // --- YENİ SORUDA SESİ DURDURMA ---
-    stopLifelineSounds(); 
-    
+    stopLifelineSounds(); // Sesi kes
     const q = gameQuestions[currentIndex];
     updatePyramidUI(currentIndex);
     
     const answersDiv = document.getElementById("answers");
     answersDiv.innerHTML = "";
-    
     document.getElementById("question").innerText = q.question;
 
     q.answers.forEach(a => {
         const btn = document.createElement("button");
         btn.textContent = a.text;
-        btn.classList.remove("correct", "wrong");
-
         btn.onclick = () => { 
             playSound('click'); 
             selectAnswer(a.correct, btn); 
@@ -114,7 +104,6 @@ function selectAnswer(correct, btn) {
         if (doubleDipActive) {
             btn.classList.add("wrong");
             btn.disabled = true;
-            btn.style.pointerEvents = "none";
             btn.style.opacity = "0.5";
             playSound('wrong');
             doubleDipActive = false; 
@@ -157,7 +146,9 @@ function highlightCorrectAnswer() {
     });
 }
 
-function updateScore() { document.getElementById("score").innerText = score.toLocaleString() + " ₺"; }
+function updateScore() {
+    // topBar silindiği için burası boş bırakıldı
+}
 
 function updatePyramidUI(index) {
     document.querySelectorAll('#moneyList li').forEach(li => li.classList.remove('active-level'));
