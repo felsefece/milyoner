@@ -11,6 +11,13 @@
     <audio id="bgMusic" loop>
         <source src="assets/audio/background_music.mp3" type="audio/mpeg">
     </audio>
+    <audio id="introMusic">
+        <source src="assets/audio/intro.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="volumeControl" onclick="toggleMute()" style="position: fixed; top: 15px; right: 15px; z-index: 1000; cursor: pointer; font-size: 22px; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid gold; user-select: none; -webkit-tap-highlight-color: transparent;">
+        <span id="muteIcon">🔊</span>
+    </div>
 
     <div id="startScreen">
         <h1 class="logo">KİM MİLYONER OLMAK İSTER</h1>
@@ -21,6 +28,12 @@
 
     <div id="gameScreen">
         <div id="quiz-area">
+            <div id="timerContainer" style="display: none; margin-bottom: 15px;">
+                <div id="timerCircle" style="width: 60px; height: 60px; border-radius: 50%; border: 4px solid gold; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 24px; font-weight: bold; background: rgba(0,0,0,0.5); color: gold; text-shadow: 0 0 5px black;">
+                    30
+                </div>
+            </div>
+
             <div id="questionBox">
                 <h2 id="question"></h2>
             </div>
@@ -29,7 +42,7 @@
 
             <div class="controls-container">
                 <div class="lifelines">
-                    <button id="btnFifty" onclick="useFifty()">50️⃣<span class="cross"></span></button>
+                    <button id="btnFifty" onclick="useFifty()">%50<span class="cross"></span></button>
                     <button id="btnDouble" onclick="useDouble()">×2<span class="cross"></span></button>
                     <button id="btnAudience" onclick="useAudience()">👥<span class="cross"></span></button>
                     <button id="btnPhone" onclick="usePhone()">📞<span class="cross"></span></button>

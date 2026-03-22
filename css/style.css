@@ -32,12 +32,12 @@ body::before {
 #startScreen, #gameScreen { position: relative; z-index: 1; }
 .logo { font-size: 5vh; margin-bottom: 2vh; text-shadow: 0 0 20px black, 0 0 10px gold; }
 
-/* Butonların Safari'deki varsayılan gri gölgesini kaldırır */
+/* Genel Buton Sıfırlama */
 button {
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
-    border: none; /* Kenarlık sorunlarını kökten çözer */
+    border: none;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -130,7 +130,7 @@ button {
     z-index: 10;
 }
 
-/* --- ÇEKİL BUTONU (DÜZELTİLDİ) --- */
+/* --- ÇEKİL BUTONU --- */
 .quitBtn {
     padding: 1.5vh 3vh !important;
     background-color: #c0392b !important;
@@ -139,7 +139,7 @@ button {
     border-radius: 25px !important;
     font-size: 1.8vh !important;
     font-weight: bold !important;
-    display: block !important; /* Görünürlüğü garantiler */
+    display: block !important;
 }
 
 /* --- PARA AĞACI --- */
@@ -167,6 +167,28 @@ button {
     background: gold; 
     color: black !important; 
     border-radius: 8px; 
+}
+
+/* --- MUTE BUTONU --- */
+#volumeControl {
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s;
+}
+#volumeControl:active { transform: scale(0.85); }
+
+/* --- MODAL VE TAMAM BUTONU DÜZELTMESİ --- */
+.modalContent .startBtn {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 120px;
+    padding: 1.5vh 4vh !important;
+    margin-top: 2vh;
+    background: gold !important;
+    color: black !important;
+    border: 2px solid black !important; /* Kenarlığı geri getirdik */
+    border-radius: 30px !important;
+    font-size: 2vh !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 /* --- MOBİL AYARLARI --- */
@@ -222,11 +244,18 @@ button {
     }
     .lifelines button { width: 5.5vh; height: 5.5vh; font-size: 2.2vh; }
     
-    /* Mobilde Çekil Butonu Düzeltmesi */
     .quitBtn { 
         display: inline-block !important; 
         font-size: 1.5vh !important; 
         padding: 1vh 2vh !important;
+    }
+
+    #volumeControl {
+        top: 5px !important;
+        right: 5px !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 18px !important;
     }
 }
 
