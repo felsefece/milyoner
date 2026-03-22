@@ -144,42 +144,73 @@ function showQuestion() {
 }
 
 function selectAnswer(correct, btn) {
-    clearInterval(timerInterval); // Cevap verilince süreyi durdur
+    // 1. Hemen diğer butonlara tıklamayı kapat ve seçilen şıkkı turuncu yap
+    disableAllButtons();
+    clearInterval(timerInterval); // Süreyi durdur
+    btn.style.backgroundColor = "orange"; // Seçim anında turuncu
+    btn.style.borderColor = "white";
 
-    if (correct) {
-        disableAllButtons();
-        btn.classList.add("correct");
-        playSound('correct');
-        score = moneyValues[currentIndex];
-        doubleDipActive = false;
-        setTimeout(() => {
-            currentIndex++;
-            if (currentIndex >= gameQuestions.length) {
-                showAlert("TEBRİKLER! MİLYONERSİNİZ!", () => location.reload());
-            } else {
-                showQuestion();
-            }
-        }, 1500);
-    } else {
-        if (doubleDipActive) {
-            btn.classList.add("wrong");
-            btn.disabled = true;
-            btn.style.opacity = "0.5";
-            playSound('wrong');
-            doubleDipActive = false; 
-            startTimer(); // Çift cevapta süre kalmışsa devam etsin (veya istersen stopla)
-            showAlert("Yanlış! Ama çift cevap jokeriniz sayesinde bir şansınız daha var.");
+    // 2. İki saniye (2000ms) bekleme süresi (Gerilim efekti)
+    setTimeout(() => {
+        if (correct) {
+            // DOĞRU CEVAP
+            btn.classList.add("correct"); // Yeşil olur
+            playSound('correct');
+            score = moneyValues[currentIndex];
+            doubleDipActive = false;
+
+            // Doğru şıkkı yanıp söndürme efekti
+            btn.style.animation = "blink 0.5s step-end infinite alternate";
+
+            setTimeout(() => {
+                btn.style.animation = "none"; // Animasyonu durdur
+                currentIndex++;
+                if (currentIndex >= gameQuestions.length) {
+                    showAlert("TEBRİKLER! MİLYONERSİNİZ!", () => location.reload());
+                } else {
+                    showQuestion();
+                }
+            }, 2000); // 2 saniye yeşil yandıktan sonra yeni soruya geç
+
         } else {
-            btn.classList.add("wrong");
-            playSound('wrong');
-            disableAllButtons();
-            highlightCorrectAnswer();
-            let finalPrize = calculateSafeMoney();
-            setTimeout(() => { 
-                showAlert(`Bitti! Ödülünüz: ${finalPrize.toLocaleString()} ₺`, () => location.reload()); 
-            }, 1200);
+            // YANLIŞ CEVAP
+            if (doubleDipActive) {
+                btn.classList.add("wrong"); // Kırmızı olur
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                playSound('wrong');
+                doubleDipActive = false; 
+                showAlert("Yanlış! Ama çift cevap jokeriniz var. Devam edin.");
+                // Diğer butonları geri aç (çift cevap hakkı için)
+                document.querySelectorAll("#answers button").forEach(b => {
+                    if (!b.classList.contains("wrong")) b.style.pointerEvents = "auto";
+                });
+            } else {
+                btn.classList.add("wrong"); // Kırmızı olur
+                playSound('wrong');
+                highlightCorrectAnswer(); // Doğru olanı da göster
+                
+                // Doğru olan şıkkı bul ve yanıp söndür
+                highlightAndBlinkCorrect();
+
+                let finalPrize = calculateSafeMoney();
+                setTimeout(() => { 
+                    showAlert(`Bitti! Ödülünüz: ${finalPrize.toLocaleString()} ₺`, () => location.reload()); 
+                }, 2000);
+            }
         }
-    }
+    }, 2000); // Turuncu bekleme süresi 2 saniye
+}
+
+// Doğru şıkkı bulup yanıp söndüren yardımcı fonksiyon
+function highlightAndBlinkCorrect() {
+    const q = gameQuestions[currentIndex];
+    document.querySelectorAll("#answers button").forEach(btn => {
+        if (q.answers.find(a => a.text === btn.textContent && a.correct)) {
+            btn.classList.add("correct");
+            btn.style.animation = "blink 0.5s step-end infinite alternate";
+        }
+    });
 }
 
 function quitGame() {
